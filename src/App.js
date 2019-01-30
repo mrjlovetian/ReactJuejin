@@ -1,25 +1,33 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 
 class App extends Component {
+
+  componentDidMount = () => {
+    this.getData()
+  }
+
+  getData=()=>{
+    console.log('begin request!!!')
+    fetch('http://192.168.152.130:3000/getjuejin?pagesize=1',{'method':'GET'})
+    .then((response)=>{
+      if (response.status === 200) {
+        console.log('................', response);
+        response.json().then((data)=>{
+          console.log('aaaaaaaaaaaaaaaaaaaaaaa', data.data)
+        })
+      }
+     
+    })
+    .catch((err)=>{
+      console.log('//////////////////////', err);
+      
+    })
+  }
+  
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+       
       </div>
     );
   }
