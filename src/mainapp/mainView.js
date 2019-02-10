@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import FormView from "./FormView"
+import SearchView from './SearchView'
+import {Button} from 'react-bootstrap'
 
 export default class mainView extends Component {
 
@@ -41,9 +44,21 @@ export default class mainView extends Component {
     return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
   }
 
+  deleteVlaue(e){
+    console.log('................', e.title)
+    var url = 'http://192.168.1.107:3000/delete'
+    var body = JSON.stringify({"id":e.id})
+    fetch(url, ({'method':'POST', headers:{"Content-Type":'application/json'}, body:body, mode:'cors'}))
+    .then(res=>{
+
+    }).catch(err=>{
+
+    })
+  }
+
   renderView(){
-    return this.state.datas.map((item)=>{
-      return (<div style={itemview} key={item.content}>
+    return this.state.datas.map((item, index)=>{
+      return (<div style={itemview} key={index}>
         <div style={top}>
           <div style={title}>{item.title}</div>
           {item.screenshot.length>0?<div style={img}><img  style={img} src={item.screenshot} alt='hh'/></div>:null}
@@ -53,6 +68,7 @@ export default class mainView extends Component {
           <div style={time}>{this.getdate(item.buildTime)}</div>
           <div style={info}>{item.summaryInfo}</div>
         </div>
+        <Button onClick={()=>{this.deleteVlaue(this.state.datas[index])}} variant="danger">删除</Button>
       </div>)
     })
   }
@@ -60,6 +76,8 @@ export default class mainView extends Component {
   render() {
     return (
       <div>
+        <SearchView />
+        <FormView />
         {this.renderView()}
       </div>
     )
